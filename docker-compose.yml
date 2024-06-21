@@ -1,0 +1,8 @@
+version: '3.7'
+
+services:
+  seven_winds:
+    build: .
+    restart: always
+    ports:
+      - '3005:80'
