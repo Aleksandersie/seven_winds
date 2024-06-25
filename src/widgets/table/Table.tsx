@@ -6,7 +6,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
 } from "@mui/material";
 import {
   useCreateRowMutation,
@@ -15,9 +14,7 @@ import {
 } from "../../enteties/row/api/row.api.ts";
 import { ent } from "../../shared/entity.ts";
 import { Row } from "../../enteties/row/model/row.model.ts";
-import DescriptionIcon from "@mui/icons-material/Description";
-import { Fragment, useEffect, useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useEffect, useState } from "react";
 import { NewRow } from "../row/Row.tsx";
 
 export const MainTable = () => {
@@ -32,22 +29,22 @@ export const MainTable = () => {
     }
   }, [data]);
 
-  const handleEditRow = <T extends Row>(
-    value: string,
-    key: keyof T,
-    row: Row,
-  ) => {
-    const arr = rows.map((el) => {
-      if (el.id === row.id) {
-        return {
-          ...row,
-          [key]: value,
-        };
-      }
-      return el;
-    });
-    setRows(arr);
-  };
+  // const handleEditRow = <T extends Row>(
+  //   value: string,
+  //   key: keyof T,
+  //   row: Row,
+  // ) => {
+  //   const arr = rows.map((el) => {
+  //     if (el.id === row.id) {
+  //       return {
+  //         ...row,
+  //         [key]: value,
+  //       };
+  //     }
+  //     return el;
+  //   });
+  //   setRows(arr);
+  // };
 
   const handleAddRow = () => {
     const body = {
