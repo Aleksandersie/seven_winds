@@ -18,6 +18,7 @@ import { Row } from "../../enteties/row/model/row.model.ts";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { Fragment, useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { NewRow } from "../row/Row.tsx";
 
 export const MainTable = () => {
   const { data } = useGetTreeRowsQuery(ent.id);
@@ -27,7 +28,7 @@ export const MainTable = () => {
 
   useEffect(() => {
     if (data) {
-      setRows(data[0].child);
+      setRows(data);
     }
   }, [data]);
 
@@ -50,6 +51,7 @@ export const MainTable = () => {
 
   const handleAddRow = () => {
     const body = {
+      id: 999,
       equipmentCosts: 0,
       estimatedProfit: 0,
       machineOperatorSalary: 0,
@@ -62,12 +64,13 @@ export const MainTable = () => {
       salary: 0,
       supportCosts: 0,
     };
+
     createRowMutation({ id: 90324, body: body });
   };
 
   const handleDeleteRow = (rID: number | undefined) => {
     deleteRowMutation({ id: data?.[0].id, rID: rID });
-    setRows(rows.filter((el) => el.id !== rID));
+    //setRows(rows.filter((el) => el.id !== rID));
   };
 
   return (
@@ -84,102 +87,13 @@ export const MainTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data?.map((row: Row, i) => {
-            return (
-              <Fragment key={row.id}>
-                <TableRow
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    onClick={(e) => handleAddRow()}
-                  >
-                    <DescriptionIcon sx={{ cursor: "pointer" }} />
-                  </TableCell>
-                  <TableCell align="right">{row.rowName}</TableCell>
-                  <TableCell align="right">{row.equipmentCosts}</TableCell>
-                  <TableCell align="right">{row.materials}</TableCell>
-                  <TableCell align="right">{row.estimatedProfit}</TableCell>
-                  <TableCell align="right">{row.estimatedProfit}</TableCell>
-                </TableRow>
-                {rows.map((row: Row) => (
-                  <TableRow
-                    key={row?.id}
-                    sx={{
-                      "&:last-child td, &:last-child th": {
-                        border: 0,
-                      },
-                    }}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      sx={{ paddingLeft: 5 }}
-                    >
-                      <DescriptionIcon sx={{ cursor: "pointer" }} />
-                      <DeleteIcon
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => handleDeleteRow(row?.id)}
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      <TextField
-                        value={row?.rowName}
-                        onChange={(e) =>
-                          handleEditRow<Row>(e.target.value, "rowName", row)
-                        }
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      <TextField
-                        value={row?.equipmentCosts}
-                        onChange={(e) =>
-                          handleEditRow<Row>(
-                            e.target.value,
-                            "equipmentCosts",
-                            row,
-                          )
-                        }
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      <TextField
-                        value={row?.materials}
-                        onChange={(e) =>
-                          handleEditRow<Row>(e.target.value, "materials", row)
-                        }
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      <TextField
-                        value={row?.supportCosts}
-                        onChange={(e) =>
-                          handleEditRow<Row>(
-                            e.target.value,
-                            "supportCosts",
-                            row,
-                          )
-                        }
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      <TextField
-                        value={row?.estimatedProfit}
-                        onChange={(e) =>
-                          handleEditRow<Row>(
-                            e.target.value,
-                            "estimatedProfit",
-                            row,
-                          )
-                        }
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </Fragment>
-            );
-          })}
+          {rows?.map((row: Row, i) => (
+            <NewRow
+              data={row}
+              submit={handleAddRow}
+              deleteRow={handleDeleteRow}
+            />
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

@@ -10,6 +10,7 @@ export type Row = {
   supportCosts: number;
   equipmentCosts: number;
   overheads: 0;
+  parentId: number;
   estimatedProfit: number;
   child: Row[];
 };

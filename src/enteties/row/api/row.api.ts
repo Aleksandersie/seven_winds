@@ -23,6 +23,7 @@ export const rowApi = createApi({
         url: `v1/outlay-rows/entity/${id}/row/${rID}/delete`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Row"],
     }),
   }),
 });
